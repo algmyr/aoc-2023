@@ -1,0 +1,1 @@
+groovy main.groovy < input
