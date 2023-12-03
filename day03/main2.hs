@@ -57,7 +57,7 @@ neighbor_values (a1, a2, a3)
 
 solve1 (a, b, c) = zipWith3 neighbor_values (triples a) (triples b) (triples c)
 
-part2 lines = sum $ map product $ filter ((>=2).length) (concat geared)
+part2 lines = sum $ map product $ filter ((==2).length) (concat geared)
   where
     geared = map solve1 (triples grid)
     grid = parse $ pad_grid lines
