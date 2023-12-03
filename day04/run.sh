@@ -1,0 +1,1 @@
+clisp main.lisp < input
