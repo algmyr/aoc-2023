@@ -39,6 +39,7 @@ triples seq = map to_tuple $ take (length seq - 2) ((map (take 3) . tails) seq)
 --       Most of the annoying work is to get the 3x3 neighborhood.
 if_pos x | x > 0 = [x]
          | otherwise = []
+
 positives (a, b, c) = if_pos a ++ if_pos b ++ if_pos c
 
 row_values (a, b, c)  | a>1 && b>1 && c>1 = [a]

@@ -1,2 +1,8 @@
 */input*
 */sample*
+main
+main2
+*.hi
+main.hs
+*.bak
+*.o
