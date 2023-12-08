@@ -3,8 +3,8 @@
 main
 main2
 *.hi
-main.hs
 *.bak
 *.o
 *.exe
 *.dll
+main.pl

@@ -1,0 +1,1 @@
+bash main.sh < input
