@@ -6,7 +6,6 @@ Module RouletteMeetsVBAndCriesHeavily
     Public Function SortKey() As Integer
       REM Bit packing is fun. Abuses that the non-top counts <= 2.
       REM This is 31 bit integer packed as 3|2|2|2|2|4|4|4|4|4.
-      Dim value As Integer = 0
       Return (
         counts(0) << 28 Or counts(1) << 26 Or counts(2) << 24 Or counts(3) << 22 Or counts(4) << 20 Or
         hand(0) << 16 Or hand(1) << 12 Or hand(2) << 8 Or hand(3) << 4 Or hand(4)
