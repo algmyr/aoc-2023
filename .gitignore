@@ -7,4 +7,5 @@ main2
 *.o
 *.exe
 *.dll
+*.mod
 main.pl
