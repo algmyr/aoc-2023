@@ -1,0 +1,1 @@
+perl main.pl < input
