@@ -8,4 +8,5 @@ main2
 *.exe
 *.dll
 *.mod
+ref*
 day05/main.pl
