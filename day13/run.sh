@@ -1,0 +1,1 @@
+elixir main.ex < input
