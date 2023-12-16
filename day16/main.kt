@@ -52,10 +52,10 @@ fun main() {
   println("Part 1: ${simulate(lines, Beam(-1, 0, 0))}")
 
   val best = listOf(
-    (0..<width).map({Beam(-1, it, 0)}),
-    (0..<width).map({Beam(width, it, 2)}),
-    (0..<height).map({Beam(it, -1, 3)}),
-    (0..<height).map({Beam(it, height, 1)}),
-  ).flatten().map{simulate(lines, it)}.max()
+    (0..<width).map{Beam(-1, it, 0)},
+    (0..<width).map{Beam(width, it, 2)},
+    (0..<height).map{Beam(it, -1, 3)},
+    (0..<height).map{Beam(it, height, 1)},
+  ).flatten().maxOf{simulate(lines, it)}
   println("Part 2: $best")
 }
