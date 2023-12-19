@@ -12,3 +12,5 @@ ref*
 day05/main.pl
 *.class
 *.kotlin_module
+obj
+bin
