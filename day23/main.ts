@@ -1,5 +1,31 @@
 const assert = require('node:assert').strict;
 
+// BitSet stuffing bits in a double.
+class BitSet {
+  constructor(data) {
+    this.data = data;
+  }
+
+  add(i) {
+    let hi = Math.trunc(this.data / 0x100000000);
+    if (i < 32) {
+      this.data = (this.data | (1 << i)) >>> 0;
+      this.data += hi * 0x100000000;
+      return;
+    }
+    let hi_mod = hi | (1 << (i - 32));
+    this.data = this.data - hi * 0x100000000 + hi_mod * 0x100000000;
+  }
+
+  has(i) {
+    if (i < 32) {
+      return !!(this.data & (1 << i));
+    }
+    let hi = Math.trunc(this.data / 0x100000000);
+    return !!(hi & (1 << (i - 32)));
+  }
+}
+
 function find_graph(grid, ignore_arrows) {
   const get = (x, y) => {
     if (y < 0 || y >= grid.length) return '#';
@@ -123,7 +149,7 @@ function longest_distance(conn, start, target) {
   }
   dreamy_upper_bound /= 2;
 
-  const stack = [[start, 0, new Set(), 0, 0]];
+  const stack = [[start, 0, new BitSet(0), 0, 0]];
   let best = 0;
 
   while (stack.length) {
@@ -144,8 +170,14 @@ function longest_distance(conn, start, target) {
     for (const [next, d] of conn[cur]) {
       tot += d;
     }
+
+    let found = conn[cur].find(([next, d]) => next === target);
+    if (found) {
+      best = Math.max(best, dist + found[1]);
+      continue;
+    }
     for (const [next, d] of conn[cur]) {
-      stack.push([next, dist + d, new Set([...visited]), rejected + tot - last_d - d, d]);
+      stack.push([next, dist + d, new BitSet(visited.data), rejected + tot - last_d - d, d]);
     }
   }
 
