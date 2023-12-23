@@ -109,21 +109,43 @@ function dump_graphviz(conn) {
 
 function longest_distance(conn, start, target) {
   // Brute force explore to find longest path.
-  const stack = [[start, 0, new Set()]];
+  
+  let dreamy_upper_bound = 0;
+  // For all nodes, for all edges...
+  for (let i = 0; i < conn.length; i++) {
+    let dists = [];
+    for (const [j, dist] of conn[i]) {
+      dists.push(dist);
+    }
+    dists.sort((a, b) => b - a);
+    if (dists.length == 1) dists.push(dists[0]);
+    dreamy_upper_bound += dists[0] + dists[1];
+  }
+  dreamy_upper_bound /= 2;
+
+  const stack = [[start, 0, new Set(), 0, 0]];
   let best = 0;
 
   while (stack.length) {
-    const [cur, dist, visited] = stack.pop();
+    const [cur, dist, visited, rejected, last_d] = stack.pop();
     if (visited.has(cur)) continue;
     visited.add(cur);
+
+    if (dreamy_upper_bound && dist + dreamy_upper_bound - rejected < best) {
+      continue;
+    }
 
     if (cur === target) {
       best = Math.max(best, dist);
       continue;
     }
 
+    let tot = 0;
     for (const [next, d] of conn[cur]) {
-      stack.push([next, dist + d, new Set([...visited])]);
+      tot += d;
+    }
+    for (const [next, d] of conn[cur]) {
+      stack.push([next, dist + d, new Set([...visited]), rejected + tot - last_d - d, d]);
     }
   }
 
